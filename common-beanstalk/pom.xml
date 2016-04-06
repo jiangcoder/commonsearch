@@ -7,10 +7,8 @@
     <artifactId>commonsearch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.jiangcoder.rpc</groupId>
-  <artifactId>beanstalk</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>beanstalk</name>
+  <artifactId>common-beanstalk</artifactId>
+  <name>common-beanstalk</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

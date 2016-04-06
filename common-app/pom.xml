@@ -5,7 +5,7 @@
     <artifactId>commonsearch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>app</artifactId>
+  <artifactId>common-app</artifactId>
   	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -15,12 +15,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.jiangcoder.rpc</groupId>
-			<artifactId>rpc-es-plugin</artifactId>
+			<artifactId>common-es-plugin</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jiangcoder.rpc</groupId>
-			<artifactId>rpc-beanstalk</artifactId>
+			<artifactId>common-beanstalk</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
