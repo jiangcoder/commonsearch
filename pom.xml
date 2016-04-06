@@ -6,9 +6,9 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-  	<module>app</module>
-  	<module>beanstalk</module>
-  	<module>es-plugin</module>
-    <module>web</module>
+  	<module>common-app</module>
+  	<module>common-beanstalk</module>
+  	<module>common-es-plugin</module>
+    <module>common-web</module>
   </modules>
 </project>
