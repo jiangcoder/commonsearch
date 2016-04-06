@@ -28,6 +28,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.es.plugin.functionquery.CustomFunctionScoreQueryBuilder;
 import org.es.plugin.searchX.SearchRequestBuilderX;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 
 public class ParentChildOrNestedQueryBuilder {
-
+	public static String ES_PREFERENCE="_local";
 	private SearchRequestBuilderX searchBuilder;
 
 	private boolean hasProductIdCondition = false;
@@ -132,7 +133,7 @@ public class ParentChildOrNestedQueryBuilder {
 	}
 
 	public ParentChildOrNestedQueryBuilder( ) {
-		String esPreference = Global.ES_PREFERENCE;
+		String esPreference = ES_PREFERENCE;
 		searchBuilder = new SearchRequestBuilderX(ESClientUtils.getTransportClient()).setPreference(
 				esPreference);
 
@@ -642,7 +643,7 @@ public class ParentChildOrNestedQueryBuilder {
 				subAgg.subAggregation(term);				
 			}
 
-			String esPreference = Global.ES_PREFERENCE;
+			String esPreference = ES_PREFERENCE;
 
 			SearchRequestBuilder builder= clientUtils.getTransportClient()
 													   .prepareSearch()
