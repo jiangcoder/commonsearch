@@ -53,6 +53,7 @@ public class ESIndex {
 				BasicDBObject ProductDoc=new BasicDBObject();
 				ProductDoc.put("id", product.get("id"));
 				ProductDoc.put("productTag", product.get("productTag"));
+				ProductDoc.put("salesVolume",product.get("salesVolume"));
 				BasicDBList skus=(BasicDBList)product.get("skus");
 				BasicDBList skusDoc=new BasicDBList();
 				for(Object skuObj:skus){
@@ -105,9 +106,9 @@ public class ESIndex {
 			for (IndexRequestBuilder indexBuilder : indexRequestBuilders) {
 				bulkRequest.add(indexBuilder);
 			}
-			if (bulkRequest.numberOfActions() > 2) {
+			if (bulkRequest.numberOfActions() >= 1) {
 				executeIndex();
-				logger.info("bulkRequest bigger than 2 ,thencommit!");
+				logger.info("bulkRequest bigger than 1 ,thencommit!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

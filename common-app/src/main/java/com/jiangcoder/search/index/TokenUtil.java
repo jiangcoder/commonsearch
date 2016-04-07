@@ -16,7 +16,7 @@ public class TokenUtil{
 
 	protected static Logger logger = LoggerFactory.getLogger(TokenUtil.class);
 
-	private GomeSegment gomeAnalyzer;
+	private GomeSegment gomeAnalyzer=new GomeSegment();
 
 	public static enum GomeTokenMode {
 		search, index
