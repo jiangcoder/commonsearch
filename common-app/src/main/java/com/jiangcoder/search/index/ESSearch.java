@@ -16,14 +16,14 @@ public class ESSearch {
 	@Test
 	public void Search() throws Exception{
 		Client client=ESClientUtils.getTransportClient();
-		QueryBuilder queryBuilder = new QueryBuilder().setIndices("product2").setTypes("productType");
+		QueryBuilder queryBuilder = new QueryBuilder().setIndices("product").setTypes("productType");
 		BasicDBObject oReq=new BasicDBObject();
 		SearchResponse response = getQueryResponse(oReq,queryBuilder);
 	}
 	@Test
 	public  void SearchIndex(){
 		Client client=ESClientUtils.getTransportClient();
-		SearchResponse response=client.prepareSearch("product2").execute().actionGet();
+		SearchResponse response=client.prepareSearch("product").execute().actionGet();
 		for(SearchHit hit:response.getHits()){
 			System.out.println(hit.getId());
 			System.out.println(response.getHeader("title"));

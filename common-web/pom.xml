@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.jiangcoder.rpc</groupId>
-  <artifactId>web</artifactId>
+  <artifactId>common-web</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>web</name>
   <url>http://maven.apache.org</url>
