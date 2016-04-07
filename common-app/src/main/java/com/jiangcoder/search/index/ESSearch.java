@@ -5,7 +5,7 @@ import org.elasticsearch.search.SearchHit;
 import org.junit.Test;
 
 import com.jiangcoder.search.es.ESClientUtils;
-import com.jiangcoder.search.es.ParentChildOrNestedQueryBuilder;
+import com.jiangcoder.search.es.QueryBuilder;
 import com.mongodb.BasicDBObject;
 
 public class ESSearch {
@@ -16,7 +16,7 @@ public class ESSearch {
 	@Test
 	public void Search() throws Exception{
 		Client client=ESClientUtils.getTransportClient();
-		ParentChildOrNestedQueryBuilder queryBuilder = new ParentChildOrNestedQueryBuilder().setIndices("product2").setTypes("productType");
+		QueryBuilder queryBuilder = new QueryBuilder().setIndices("product2").setTypes("productType");
 		BasicDBObject oReq=new BasicDBObject();
 		SearchResponse response = getQueryResponse(oReq,queryBuilder);
 	}
@@ -33,7 +33,7 @@ public class ESSearch {
 			System.out.println("source.title:"+hit.getSource().get("title"));
 		}
 	}
-	public SearchResponse getQueryResponse(BasicDBObject oReq,ParentChildOrNestedQueryBuilder queryBuilder)
+	public SearchResponse getQueryResponse(BasicDBObject oReq,QueryBuilder queryBuilder)
 			throws Exception {
 		return null;
 	}
