@@ -28,12 +28,12 @@ public class CreateIndex {
 	@Test
 	public  void CreateIndex() {
 		Client client=ESClientUtils.getTransportClient();
-		IndexResponse response =client.prepareIndex("library","book","5").setSource("{\"title\":\"b\"}").execute().actionGet();
+		IndexResponse response =client.prepareIndex("product","productType","9100003735").setSource("{\"id\":\"9100003735\",\"productType\":0,\"name\":\"55英寸4K超高清 智能 八核 网络 内置WiFi 窄边 LED 液晶电视\",\"state\":4,\"startDate\":1459353600000,\"endDate\":1893427199000,\"productTag\":1,\"evaluateCount\":0,\"brand\":\"chuangwei\",\"iismerchant\":2,\"price\":318.0,\"category\":100030}").execute().actionGet();
 	}
 	@Test
 	public  void DeleteIndex(){
 		Client client=ESClientUtils.getTransportClient();
-		DeleteResponse response=client.prepareDelete("product2","productType","9114205726").execute().actionGet();
+		DeleteResponse response=client.prepareDelete("product","sku","AVPsEeeMV7koqLHyM2_n").execute().actionGet();
 	}
 	@Test
 	public  void SearchIndex(){
