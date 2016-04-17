@@ -23,7 +23,6 @@
 //import org.elasticsearch.index.query.IndexQueryParserModule;
 //import org.elasticsearch.plugins.AbstractPlugin;
 //import org.elasticsearch.script.ScriptModule;
-//import org.es.plugin.functionquery.nativeplugin.ESProductNativeScriptFactory;
 //
 //public class CustomFuntionScoreQueryPlugin extends AbstractPlugin{
 //    @Override

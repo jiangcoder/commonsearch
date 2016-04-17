@@ -28,7 +28,6 @@
 //import org.apache.lucene.util.ToStringUtils;
 //import org.elasticsearch.common.lucene.search.function.CombineFunction;
 //import org.elasticsearch.common.lucene.search.function.ScoreFunction;
-//import org.es.plugin.functionquery.nativeplugin.ESProductScript;
 //
 //import java.io.IOException;
 //import java.util.Set;
@@ -36,9 +35,9 @@
 //public class CustomFunctionScoreQuery extends  Query{
 //	
 //	final static String path="sku";
-//    Query subQuery;
+//    public Query subQuery;
 //    final ScoreFunction function;
-//    float maxBoost = Float.MAX_VALUE;
+//     float maxBoost = Float.MAX_VALUE;
 //    CombineFunction combineFunction;
 //    String regionId=null;
 //    boolean fake=true;
