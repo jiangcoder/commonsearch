@@ -10,5 +10,6 @@
   	<module>common-beanstalk</module>
   	<module>common-es-plugin</module>
     <module>common-web</module>
+    <module>common-interview</module>
   </modules>
 </project>
