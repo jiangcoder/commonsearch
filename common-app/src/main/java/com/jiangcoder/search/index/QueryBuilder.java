@@ -21,6 +21,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.es.plugin.product.jiangcoder.JiangcoderScoreQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Lists;
 import com.jiangcoder.search.es.ESClientUtils;
 import com.mongodb.BasicDBObject;
@@ -33,7 +34,7 @@ import com.mongodb.BasicDBObject;
  */
 public class QueryBuilder {
 	protected static Logger logger = LoggerFactory.getLogger(QueryBuilder.class);
-
+	private List<FilterBuilder> skuFilters = Lists.newArrayList();
 	public enum FilterType {
 		TERM, RANGE, NOT, OR, FILTER
 	}
@@ -217,13 +218,59 @@ public class QueryBuilder {
 		return addFilter(FilterType.OR, field, null, null, null, orValues, null);
 
 	}
+	public List<FilterBuilder> getSkuFilters() {
+		return skuFilters;
+	}
 
+	public void setSkuFilters(List<FilterBuilder> skuFilters) {
+		this.skuFilters = skuFilters;
+	}
 	public QueryBuilder addOrFilter(BasicDBObject orfilters) {
 
 		return addFilter(FilterType.OR, null, null, null, null, null, orfilters);
 
 	}
+	public QueryBuilder addFilter(FilterType type,
+			String field, Object value, Object toValue, FilterBuilder filter,
+			List<?> orValues, BasicDBObject orFilters,
+			List<FilterBuilder> filters) {
 
+		switch (type) {
+		case TERM:
+			filters.add(FilterBuilders.termFilter(field, value));
+			break;
+		case RANGE:
+			filters.add(FilterBuilders.rangeFilter(field).from(value)
+					.to(toValue).cache(true));
+			break;
+		case NOT:
+			// filters.add(FilterBuilders.notFilter(FilterBuilders.termFilter(field,
+			// value)).cache(true));
+			filters.add(FilterBuilders.boolFilter().cache(true)
+					.mustNot(FilterBuilders.termFilter(field, value)));
+			break;
+		case OR:
+
+			if (orValues == null || orValues.size() < 1) {
+				if (orFilters != null && orFilters.size() > 0)
+					filters.add(buildOrFilter(orFilters));
+				else
+					return this;
+			} else {
+				filters.add(buildOrFilter(field, orValues));
+			}
+			break;
+		case FILTER:
+			filters.add(filter);
+			break;
+		}
+		return this;
+	}
+	public QueryBuilder addSkuFilter(FilterBuilder filter) {
+
+		return addFilter(FilterType.FILTER, null, null, null, filter, null,
+				null, skuFilters);
+	}
 	public QueryBuilder addFilter(FilterBuilder filter) {
 
 		return addFilter(FilterType.FILTER, null, null, null, filter, null, null);

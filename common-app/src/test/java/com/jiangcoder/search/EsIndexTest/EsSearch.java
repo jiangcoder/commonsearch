@@ -1,14 +1,11 @@
 package com.jiangcoder.search.EsIndexTest;
 
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.BoolFilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.highlight.HighlightField;
 
 import com.jiangcoder.search.es.ESClientUtils;
 import com.jiangcoder.search.index.QueryBuilder;
@@ -30,6 +27,11 @@ public class EsSearch {
 		queryBuilder.setScriptParm("price",412.0d);
 		queryBuilder.setIndices("pro").setTypes("productType");
 		queryBuilder.setQuery("state:4");
+		BoolFilterBuilder categoriesFilter = FilterBuilders.boolFilter();
+			String cateId = "cat1000070";
+				categoriesFilter.should(FilterBuilders.termFilter(com.jiangcoder.search.es.ChildIndexStructure.FIELD_CATS,
+						cateId).cache(true));
+		queryBuilder.addSkuFilter(categoriesFilter);
 		queryBuilder.from(0);
 		queryBuilder.size(10);
 		//queryBuilder.setQuery(QueryBuilders.boolQuery().should(QueryBuilders.termsQuery("evaluateCount", new int[]{0})));
