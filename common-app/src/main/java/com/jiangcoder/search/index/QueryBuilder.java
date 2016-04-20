@@ -39,7 +39,7 @@ public class QueryBuilder {
 		TERM, RANGE, NOT, OR, FILTER
 	}
 
-	private final String[] commFields = { "productId", "skuId", "productTag", "skuNo", "salesVolume", "promoScore", "title", "shopId", "shopName", "shopType", "evaluateCount","promoFlag"};
+	private final String[] commFields = { "productId", "skuId", "productTag", "skuNo", "salesVolume", "promoScore", "title", "shopId", "shopName", "shopType", "evaluateCount","promoFlag","name","state","id"};
 	private List<FilterBuilder> filters = Lists.newArrayList();
 	// private AndFilterBuilder andFilterBuilder;
 	BoolFilterBuilder andFilterBuilder;
@@ -88,13 +88,13 @@ public class QueryBuilder {
 	public QueryBuilder setScriptParm(String key, Object value) {
 
 		setScript(null);
-//		if( !StringUtils.isEmpty(key) ){
-//			if( key.equals("gomeSortType") ){
-//				this.gomeSortType = (Integer)value;
-//			}else if( key.equals("gomeSortAsc") ){
-//				this.gomeSortAsc = (Boolean)value;
-//			}
-//		}
+		if( !StringUtils.isEmpty(key) ){
+			if( key.equals("gomeSortType") ){
+				this.gomeSortType = (Integer)value;
+			}else if( key.equals("gomeSortAsc") ){
+				this.gomeSortAsc = (Boolean)value;
+			}
+		}
 		functionBuilder.param(key, value);
 		return this;
 	}
