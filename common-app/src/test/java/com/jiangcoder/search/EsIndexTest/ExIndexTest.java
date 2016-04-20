@@ -1,5 +1,5 @@
-//package com.jiangcoder.search.EsIndexTest;
-//
-//public class ExIndexTest {
-//	
-//}
+package com.jiangcoder.search.EsIndexTest;
+
+public class ExIndexTest {
+	
+}

@@ -4,7 +4,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.search.SearchHit;
 
 import com.jiangcoder.search.es.ESClientUtils;
-import com.jiangcoder.search.es.QueryBuilder;
 import com.mongodb.BasicDBObject;
 
 public class ESSearch {
@@ -25,7 +24,7 @@ public class ESSearch {
 		SearchResponse response=client.prepareSearch("product").execute().actionGet();
 		for(SearchHit hit:response.getHits()){
 			System.out.println(hit.getId());
-			System.out.println(response.getHeader("title"));
+			//System.out.println(response.getHeader("title"));
 			if(hit.getFields().containsKey("title")){
 				System.out.println("field.title: "+hit.getFields().get("title").getValue());
 			}

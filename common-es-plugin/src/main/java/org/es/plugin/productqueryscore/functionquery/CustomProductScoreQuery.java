@@ -16,7 +16,7 @@ import org.apache.lucene.util.Bits;
 import org.apache.lucene.util.ToStringUtils;
 import org.elasticsearch.common.lucene.search.function.CombineFunction;
 import org.elasticsearch.common.lucene.search.function.ScoreFunction;
-import org.es.plugin.functionquery.ESProductScriptConst;
+import org.es.plugin.productqueryscore.ESProductScriptConst;
 
 public class CustomProductScoreQuery extends Query{
 	final static String path="sku";

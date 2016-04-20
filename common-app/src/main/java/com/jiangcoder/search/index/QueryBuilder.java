@@ -18,10 +18,9 @@ import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.es.plugin.functionquery.CustomFunctionScoreQueryBuilder;
+import org.es.plugin.product.jiangcoder.JiangcoderScoreQueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Lists;
 import com.jiangcoder.search.es.ESClientUtils;
 import com.mongodb.BasicDBObject;
@@ -47,19 +46,27 @@ public class QueryBuilder {
 	private SearchRequestBuilder searchBuilder;
 	private Integer facetSize = 200;// 默认所有facet 最大200
 	private ScriptScoreFunctionBuilder functionBuilder;
-	private static final String defaultScript = "esproduct";
+	private static final String defaultScript = "native-script";
 	private boolean debug = false;
 	private List<String> returnFields = null;
 	private Boolean fake = null;
 	private String regionId = null;
 	private String cityId = null;
 	private String catIds=null;
-	
+	private double price=0;
     private int gomeSortType=0;
     private boolean gomeSortAsc=false;
-
+    private String category=null;
 	public QueryBuilder() {
 		searchBuilder = ESClientUtils.getTransportClient().prepareSearch().setPreference(Global.ES_PREFERENCE).setSearchType(SearchType.DFS_QUERY_THEN_FETCH);
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public QueryBuilder setScript(String script) {
@@ -69,16 +76,24 @@ public class QueryBuilder {
 		return this;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public QueryBuilder setScriptParm(String key, Object value) {
 
 		setScript(null);
-		if( !StringUtils.isEmpty(key) ){
-			if( key.equals("gomeSortType") ){
-				this.gomeSortType = (Integer)value;
-			}else if( key.equals("gomeSortAsc") ){
-				this.gomeSortAsc = (Boolean)value;
-			}
-		}
+//		if( !StringUtils.isEmpty(key) ){
+//			if( key.equals("gomeSortType") ){
+//				this.gomeSortType = (Integer)value;
+//			}else if( key.equals("gomeSortAsc") ){
+//				this.gomeSortAsc = (Boolean)value;
+//			}
+//		}
 		functionBuilder.param(key, value);
 		return this;
 	}
@@ -139,7 +154,14 @@ public class QueryBuilder {
 		this.catIds = catIds;
 		return this;
 	}
-	
+	public QueryBuilder category(String category) {
+		this.category=category;
+		return this;
+	}
+	public QueryBuilder price(float price){
+		this.price=price;
+		return this;
+	}
 	public QueryBuilder gomeSortType(int gomeSortType) {
 		this.gomeSortType = gomeSortType;
 		return this;
@@ -274,15 +296,9 @@ public class QueryBuilder {
 	}
 
 	public QueryBuilder addFacet(String field, boolean filtered, Integer size) {
-
 		TermsFacetBuilder termfacet = FacetBuilders.termsFacet(field).field(field);
 		termfacet.size(size != null && size != 0 ? size : this.facetSize);
-
-		// if(filtered){
-		// termfacet.facetFilter(andFilterBuilder);
-		// }
 		searchBuilder.addFacet(termfacet);
-		
 		return this;
 	}
 
@@ -328,25 +344,23 @@ public class QueryBuilder {
 			if (functionBuilder == null && !sql.contains(Global.SQL_ALL)) {
 				searchBuilder.setQuery(QueryBuilders.queryString(sql));
 			} else {
-				CustomFunctionScoreQueryBuilder functionQuery = null;
+				JiangcoderScoreQueryBuilder functionQuery = null;
 				if (sql.contains(Global.SQL_ALL)) {
 					
 					if(isScoreSort()){
-						functionQuery = new CustomFunctionScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
+						functionQuery = new JiangcoderScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
 								"sum");
 					}else{
-						functionQuery = new CustomFunctionScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery().boost(0), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
+						functionQuery = new JiangcoderScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery().boost(0), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
 								"sum");
 					}
-					
-					
 				} else {
 					
 					if(isScoreSort()){
-						functionQuery = new CustomFunctionScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.queryString(sql), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
+						functionQuery = new JiangcoderScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.queryString(sql), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
 								"sum");
 					}else{
-						functionQuery = new CustomFunctionScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.queryString(sql).boost(0), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
+						functionQuery = new JiangcoderScoreQueryBuilder(QueryBuilders.filteredQuery(QueryBuilders.queryString(sql).boost(0), andFilterBuilder)).add(functionBuilder.lang("native")).boostMode(
 								"sum");
 					}
 					
@@ -365,8 +379,8 @@ public class QueryBuilder {
 					functionQuery.catIds(catIds);
 				}
 				
-				functionQuery.gomeSortAsc(gomeSortAsc);
-				functionQuery.gomeSortType(gomeSortType);
+//				functionQuery.gomeSortAsc(gomeSortAsc);
+//				functionQuery.gomeSortType(gomeSortType);
 				
 				
 				searchBuilder.setQuery(functionQuery);
@@ -427,6 +441,7 @@ public class QueryBuilder {
 		}
 		else{
 			//本地测试，提交要注释
+			System.out.println(searchBuilder.toString());
 			logger.info("search DSL: [{}]", new Object[] { searchBuilder.toString() });
 		}
 		

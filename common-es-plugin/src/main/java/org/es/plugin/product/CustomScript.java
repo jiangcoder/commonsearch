@@ -2,10 +2,11 @@ package org.es.plugin.product;
 
 import java.util.Map;
 
+import org.elasticsearch.common.inject.internal.Nullable;
 import org.elasticsearch.index.fielddata.ScriptDocValues;
 import org.elasticsearch.script.AbstractDoubleSearchScript;
 
-import com.sun.istack.internal.Nullable;
+
 
 public class CustomScript extends AbstractDoubleSearchScript {
 	private double price;

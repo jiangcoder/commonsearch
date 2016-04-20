@@ -7,7 +7,6 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.ESLoggerFactory;
 import org.elasticsearch.index.fielddata.ScriptDocValues.Strings;
 import org.elasticsearch.script.AbstractFloatSearchScript;
-import org.es.plugin.functionquery.ESProductScriptConst;
 
 public class ProductScoreScript extends AbstractFloatSearchScript {
 	static ESLogger logger = ESLoggerFactory.getLogger("[custom script ]", "script.esproduct");
